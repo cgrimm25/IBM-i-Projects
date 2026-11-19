@@ -1,0 +1,79 @@
+     A*=========================================================================
+     A* File:        WEATHDSPF.DSPF
+     A* Programmer:  Chris Grimm
+     A* Date:        11/19/2026
+     A*
+     A* Description:
+     A*     Interactive DDS Display File for weather lookup utility. Prompts
+     A*     user for City/State and optional Country code, and displays full
+     A*     weather metrics and dynamic unit labels returned by GETWEATHER.
+     A*
+     A* Maintenance Log:
+     A* Date        Author       Description
+     A* ----------  -----------  -----------------------------------------------
+     A* 11/19/2026  Chris Grimm  Initial display file creation.
+     A*=========================================================================
+     A                                      DSPSIZ(27 132 *DS4)
+     A                                      CA03(03 'Exit')
+     A                                      CA05(05 'Clear')
+     A          R WEATHSCN
+     A                                      BLINK
+     A                                      OVERLAY
+     A                                  1  2USER
+     A                                  1 28'CURRENT WEATHER LOOKUP'
+     A                                      DSPATR(HI)
+     A                                  1 71DATE
+     A                                      EDTCDE(Y)
+     A                                  2 71TIME
+     A                                  3  2'Enter location and press Enter:'
+     A                                      COLOR(BLU)
+     A                                  5  4'City / State . :'
+     A            SCNCITY       40A  B  5 21CHECK(LC)
+     A                                  5 64'(e.g. Grand Rapids,MI)'
+     A                                      COLOR(TRQ)
+     A                                  6  4'Country Code . :'
+     A            SCNCTRY        2A  B  6 21
+     A                                  6 64'(e.g. US, IT)'
+     A                                      COLOR(TRQ)
+     A                                  8  2'------------------------------------
+     A                                      ------------------------------------
+     A                                      ----'
+     A                                      COLOR(BLU)
+     A                                 10  4'Condition  . . :'
+     A            SCNCOND       30A  O 10 21DSPATR(HI)
+     A                                 11  4'Details  . . . :'
+     A            SCNDESC       55A  O 11 21DSPATR(HI)
+     A                                 13  4'Temperature  . :'
+     A            SCNTEMP        7Y 2O 13 21EDTCDE(J)
+     A            SCNTUNIT1      1A  O 13 32
+     A                                 13 40'Feels Like . . :'
+     A            SCNFEELS       7Y 2O 13 57EDTCDE(J)
+     A            SCNTUNIT2      1A  O 13 68
+     A                                 14  4'Min Temp . . . :'
+     A            SCNTMIN        7Y 2O 14 21EDTCDE(J)
+     A            SCNTUNIT3      1A  O 14 32
+     A                                 14 40'Max Temp . . . :'
+     A            SCNTMAX        7Y 2O 14 57EDTCDE(J)
+     A            SCNTUNIT4      1A  O 14 68
+     A                                 16  4'Humidity . . . :'
+     A            SCNHUM         5Y 0O 16 21EDTCDE(J)
+     A                                 16 29'%'
+     A                                 16 40'Pressure . . . :'
+     A            SCNPRESS       6Y 0O 16 57EDTCDE(J)
+     A                                 16 66'hPa'
+     A                                 17  4'Wind Speed . . :'
+     A            SCNWSPEED      7Y 2O 17 21EDTCDE(J)
+     A            SCNWUNIT       3A  O 17 32
+     A                                 17 40'Wind Direction :'
+     A            SCNWDEG        5Y 0O 17 57EDTCDE(J)
+     A                                 17 65'deg'
+     A                                 18  4'Cloud Cover  . :'
+     A            SCNCLOUDS      5Y 0O 18 21EDTCDE(J)
+     A                                 18 29'%'
+     A                                 18 40'Visibility . . :'
+     A            SCNVIS         7Y 0O 18 57EDTCDE(J)
+     A                                 18 68'm'
+     A            SCNMSG        76A  O 21  2COLOR(RED)
+     A  50                                  DSPATR(RI)
+     A                                 23  2'F3=Exit   F5=Clear   Enter=Lookup'
+     A                                      COLOR(BLU)
