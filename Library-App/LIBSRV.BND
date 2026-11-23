@@ -1,0 +1,26 @@
+/*=================================================================*/
+/* Binder Source: LIBSRV.BND                                       */
+/* Programmer:    Chris Grimm                                      */
+/* Date:          11/22/2026                                       */
+/*                                                                 */
+/* Description:                                                    */
+/*    Public procedure exports and signature definition for the    */
+/*    LIBSRV Library Catalog service program.                      */
+/*                                                                 */
+/* Maintenance Log:                                                */
+/* Date       Author       Description                             */
+/* ---------- ------------ --------------------------------------- */
+/* 11/22/2026 Chris Grimm  Initial binder source creation.         */
+/*=================================================================*/
+             STRPGMEXP  PGMLVL(*CURRENT) SIGNATURE('LIBSRV_OOP_V1')
+                EXPORT     SYMBOL('BOOK_NEW')
+                EXPORT     SYMBOL('BOOK_FINDBYID')
+                EXPORT     SYMBOL('BOOK_VALIDATE')
+                EXPORT     SYMBOL('BOOK_SAVE')
+                EXPORT     SYMBOL('BOOK_DELETE')
+                EXPORT     SYMBOL('CATALOG_SEARCH')
+                EXPORT     SYMBOL('BOOK_FORMATFULL')
+                EXPORT     SYMBOL('BOOK_FORMATROW')
+                EXPORT     SYMBOL('FMT_STANDARDBADGE')
+                EXPORT     SYMBOL('FMT_CLASSICBADGE')
+             ENDPGMEXP

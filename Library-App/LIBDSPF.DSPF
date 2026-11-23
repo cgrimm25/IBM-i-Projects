@@ -1,0 +1,143 @@
+     A*=================================================================
+     A* File:        LIBDSPF.DSPF
+     A* Programmer:  Chris Grimm
+     A* Date:        11/22/2026
+     A*
+     A* Description:
+     A*    External DDS Display File for the IBM i Book Library
+     A*    application. Provides a subfile list with search, filter,
+     A*    and sort functionality.
+     A*
+     A* Maintenance Log:
+     A* Date       Author       Description
+     A* ---------- ------------ ----------------------------------------
+     A* 11/22/2026 Chris Grimm  Initial display file creation.
+     A* 11/23/2026 Chris Grimm  Added CHECK(LC) to text input fields.
+     A*=================================================================
+     A                                      DSPSIZ(27 132 *DS4)
+     A                                      INDARA
+     A                                      PRINT
+     A                                      CA03(03 'Exit')
+     A                                      CA05(05 'Refresh')
+     A                                      CA06(06 'Add Book')
+     A                                      CA12(12 'Cancel')
+     A*-----------------------------------------------------------------
+     A* Subfile Record (LIBSBFL) - Displays each book row
+     A*-----------------------------------------------------------------
+     A          R LIBSBFL                   SFL
+     A            SOPT           1A  B 10  2
+     A            SID            6Y 0O 10  6EDTCDE(Z)
+     A            SISBN         13A  O 10 14
+     A            STITLE        45A  O 10 29
+     A            SAUTHOR       30A  O 10 76
+     A            SYEAR          4Y 0O 10108EDTCDE(Z)
+     A            SLANG          5A  O 10114
+     A            SRATING        4Y 2O 10121EDTCDE(1)
+     A*-----------------------------------------------------------------
+     A* Subfile Control Record (LIBCTL) - Header, Search, Filter & Sort
+     A*-----------------------------------------------------------------
+     A          R LIBCTL                    SFLCTL(LIBSBFL)
+     A                                      SFLSIZ(9999)
+     A                                      SFLPAG(0014)
+     A                                      OVERLAY
+     A  30                                  SFLDSP
+     A  31                                  SFLDSPCTL
+     A  32                                  SFLCLR
+     A  33                                  SFLEND(*MORE)
+     A                                  1 55'IBM i Book Library'
+     A                                      DSPATR(HI)
+     A                                  1120DATE
+     A                                      EDTCDE(Y)
+     A                                  3  2'Search (ID/ISBN/Title/Author):'
+     A            FSEARCH       40A  B  3 33CHECK(LC)
+     A                                  4  2'Sort By:'
+     A            FSORT          1A  B  4 11
+     A                                  4 14'(1=ID 2=Title 3=Author 4=Year 5=Ra-
+     A                                      ting)'
+     A                                  5  2'Order  :'
+     A            FDIR           1A  B  5 11
+     A                                  5 14'(A=Ascending  D=Descending)'
+     A                                  7  2'2=Edit   4=Delete   5=Display'
+     A                                      COLOR(BLU)
+     A                                  9  2'Opt'
+     A                                      DSPATR(HI)
+     A                                  9  6'ID'
+     A                                      DSPATR(HI)
+     A                                  9 14'ISBN'
+     A                                      DSPATR(HI)
+     A                                  9 29'Title'
+     A                                      DSPATR(HI)
+     A                                  9 76'Author'
+     A                                      DSPATR(HI)
+     A                                  9108'Year'
+     A                                      DSPATR(HI)
+     A                                  9114'Lang'
+     A                                      DSPATR(HI)
+     A                                  9121'Rating'
+     A                                      DSPATR(HI)
+     A*-----------------------------------------------------------------
+     A* Footer Record (LIBFTR) - Status message and function keys
+     A*-----------------------------------------------------------------
+     A          R LIBFTR
+     A            FMSG         128A  O 25  2DSPATR(HI)
+     A                                 26  2'F3=Exit   F5=Refresh   F6=Add Book'
+     A                                      COLOR(BLU)
+     A*-----------------------------------------------------------------
+     A* Detail / Edit / Add Record (LIBDTL)
+     A*-----------------------------------------------------------------
+     A          R LIBDTL
+     A                                  1 55'IBM i Book Library'
+     A                                      DSPATR(HI)
+     A                                  1120DATE
+     A                                      EDTCDE(Y)
+     A            DMODE         25A  O  3  2DSPATR(HI)
+     A                                      COLOR(BLU)
+     A                                  5  2'Book ID . . . . . :'
+     A            DID            6Y 0O  5 23EDTCDE(Z)
+     A                                  7  2'ISBN  . . . . . . :'
+     A            DISBN         13A  B  7 23CHECK(LC)
+     A  40                                  DSPATR(PR)
+     A N40                                  DSPATR(UL)
+     A                                  9  2'Title . . . . . . :'
+     A            DTITLE        80A  B  9 23CHECK(LC)
+     A  40                                  DSPATR(PR)
+     A N40                                  DSPATR(UL)
+     A                                 11  2'Author(s) . . . . :'
+     A            DAUTHOR       80A  B 11 23CHECK(LC)
+     A  40                                  DSPATR(PR)
+     A N40                                  DSPATR(UL)
+     A                                 13  2'Publication Year  :'
+     A            DYEAR          4Y 0B 13 23EDTCDE(Z)
+     A  40                                  DSPATR(PR)
+     A N40                                  DSPATR(UL)
+     A                                 15  2'Language Code . . :'
+     A            DLANG         10A  B 15 23CHECK(LC)
+     A  40                                  DSPATR(PR)
+     A N40                                  DSPATR(UL)
+     A                                 17  2'Average Rating  . :'
+     A            DRATING        4Y 2B 17 23EDTCDE(1)
+     A  40                                  DSPATR(PR)
+     A N40                                  DSPATR(UL)
+     A            DMSG         100A  O 23  2DSPATR(HI)
+     A                                 25  2'F3=Exit   F12=Cancel'
+     A                                      COLOR(BLU)
+     A N40                             25 25'Enter=Save'
+     A                                      COLOR(BLU)
+     A*-----------------------------------------------------------------
+     A* Delete Confirmation Popup Window (LIBDEL)
+     A*-----------------------------------------------------------------
+     A          R LIBDEL
+     A                                      WINDOW(8 35 10 60)
+     A                                      WDWBORDER((*COLOR RED))
+     A                                  1 18'Confirm Delete Book'
+     A                                      DSPATR(HI)
+     A                                      COLOR(RED)
+     A                                  3  2'Book ID:'
+     A            WID            6Y 0O  3 11EDTCDE(Z)
+     A                                  4  2'Title  :'
+     A            WTITLE        45A  O  4 11
+     A                                  6  2'Are you sure you want to delete?'
+     A                                  7  2'Confirm (Y/N):'
+     A            WCONF          1A  B  7 17
+     A                                  9  2'Enter=Confirm   F12=Cancel'
+     A                                      COLOR(BLU)
