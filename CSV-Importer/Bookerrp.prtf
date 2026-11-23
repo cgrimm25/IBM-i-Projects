@@ -1,0 +1,51 @@
+     A*========================================================================
+     A* File:        BOOKERRP.PRTF
+     A* Programmer:  Chris Grimm
+     A* Date:        11/19/2026
+     A*
+     A* Description:
+     A*     External DDS Printer File for BOOKIMPORT exception and audit
+     A*     report. Prints report headers, skipped CSV line details,
+     A*     rejection reasons, and batch summary totals.
+     A*
+     A* Maintenance Log:
+     A* Date       Author       Description
+     A* ---------- ------------ -----------------------------------------------
+     A* 11/19/2026 Chris Grimm  Initial printer file creation.
+     A*========================================================================
+     A          R RPTHEADER                 SKIPB(3)
+     A                                      SPACEA(1)
+     A                                     2'PROGRAM: BOOKIMPORT'
+     A                                    48'LIBRARY CATALOG IMPORT AUDIT'
+     A                                   108'DATE:'
+     A                                   114DATE EDTCDE(Y)
+     A          R RPTSUBHDR                 SPACEA(2)
+     A                                     2'SOURCE: Books.csv (IFS)'
+     A                                   108'PAGE:'
+     A                                   114PAGNBR EDTCDE(Z)
+     A          R COLHEADER                 SPACEA(1)
+     A                                     2'LINE #'
+     A                                    12'REJECTION REASON'
+     A                                    48'RAW CSV DATA SNIPPET'
+     A          R COLUNDER                  SPACEA(1)
+     A                                     2'--------'
+     A                                    12'----------------------------------'
+     A                                    48'----------------------------------'
+     A                                    82'----------------------------------'
+     A          R DETAIL                    SPACEA(1)
+     A            PRTLINENUM     7S 0      2EDTCDE(Z)
+     A            PRTREASON     34A       12
+     A            PRTRAWDATA    82A       48
+     A          R NOERRORS                  SPACEB(2)
+     A                                    12'*** ALL RECORDS IMPORTED CLEANLY'
+     A                                    45'- ZERO ERRORS DETECTED ***'
+     A          R RPTSUMMARY                SPACEB(2)
+     A                                     2'----------------------------------'
+     A                                    36'----------------------------------'
+     A                                    70'----------------------------------'
+     A                                   104'--------------'
+     A          R RPTOTALS                  SPACEB(1)
+     A                                     2'TOTAL RECORDS LOADED:'
+     A            PRTLOADED      7S 0     25EDTCDE(J)
+     A                                    40'TOTAL RECORDS SKIPPED:'
+     A            PRTSKIPPED     7S 0     64EDTCDE(J)
